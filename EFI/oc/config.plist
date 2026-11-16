@@ -2114,7 +2114,7 @@
 				AAAAAAAAAAAAAAAAAAA=
 				</data>
 				<key>boot-args</key>
-				<string>-lilubetaall -vi2c-force-polling -amfipassbeta revpatch=sbvmm revblock=media -noredpdelay -no_compat_check alcid=21 alcverbs=1 -cirrusdbg -cirrusnodsp</string>
+				<string>-lilubetaall -vi2c-force-polling -amfipassbeta revpatch=sbvmm revblock=media -noredpdelay -no_compat_check alcid=21 alcverbs=1 -cirrusdbg</string>
 				<key>csr-active-config</key>
 				<data>
 				AwgAAA==
