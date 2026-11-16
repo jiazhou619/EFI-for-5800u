@@ -32,7 +32,28 @@ rm -rf "$EFI_KEXT"
 cp -R "$G/Kexts/CirrusAudioFixup.kext" "$EFI_KEXT"
 
 echo "[3/4] 恢复 config.plist (boot-args: alcid=21 / alcverbs=1, 无 nodsp)"
-cp "$G/config.plist" "$EFI_CFG"
+# 仓库里的 config 已脱敏,恢复时须保留本机现有标识(MLB/ROM/SerialNumber),
+# 否则 iMessage/FaceTime 等设备认证会失效。用 Python 安全处理二进制 ROM。
+if [ -f "$EFI_CFG" ]; then
+    python3 - "$EFI_CFG" "$G/config.plist" <<'PYEOF'
+import sys, plistlib
+cur_path, golden_path = sys.argv[1], sys.argv[2]
+cur = plistlib.load(open(cur_path, 'rb'))
+gold = plistlib.load(open(golden_path, 'rb'))
+cg = cur.get('PlatformInfo', {}).get('Generic', {})
+gg = gold.setdefault('PlatformInfo', {}).setdefault('Generic', {})
+kept = []
+for key in ('SerialNumber', 'MLB', 'ROM'):
+    v = cg.get(key)
+    if v:  # 仅当本机现有非空值时保留
+        gg[key] = v
+        kept.append(key)
+plistlib.dump(gold, open(cur_path, 'wb'), sort_keys=False)
+print('  已保留本机标识:', ', '.join(kept) if kept else '(本机原本为空)')
+PYEOF
+else
+    cp "$G/config.plist" "$EFI_CFG"
+fi
 
 echo "[4/4] 校验"
 NEW_SHA=$(shasum -a 256 "$EFI_KEXT/Contents/MacOS/CirrusAudioFixup" | awk '{print $1}')

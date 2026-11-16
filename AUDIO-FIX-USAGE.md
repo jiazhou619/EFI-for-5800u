@@ -26,7 +26,7 @@
 
 把本仓库的 `EFI/` 目录整体拷贝到 EFI 分区（FAT32 的 `EFI` 分区，替换已有 `EFI` 目录）。拷贝前请先备份你原来的 EFI。
 
-> 提示：config.plist 的 `PlatformInfo/Generic` 含这台机器的 `MLB`、`ROM` 等标识。如果你是别人、或对公开仓库有顾虑，请按自己机器的真实值修改后再用。
+> 提示：仓库内所有 `config.plist` 的 `MLB`、`ROM`、`SerialNumber` 已清空（不含原机标识）。在别的机器上使用本 EFI 时，请填入那台机器自己的标识；`EFI/restore/RESTORE-GOLDEN.sh` 恢复时会自动保留你本机现有的标识，不会抹掉它们。
 
 ### 2. Node 0x17 守护进程（低音必需）
 

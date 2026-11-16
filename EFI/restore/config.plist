@@ -2196,14 +2196,13 @@
 			<key>AdviseFeatures</key>
 			<false/>
 			<key>MLB</key>
-			<string>C02015100CD0000FB</string>
+			<string></string>
 			<key>MaxBIOSVersion</key>
 			<false/>
 			<key>ProcessorType</key>
 			<integer>3841</integer>
 			<key>ROM</key>
 			<data>
-			FOH6zOJQ
 			</data>
 			<key>SpoofVendor</key>
 			<true/>
@@ -2215,6 +2214,8 @@
 			<string>C02CKVZNP3XY</string>
 			<key>SystemUUID</key>
 			<string>1B4F6F5A-7463-453F-9ADA-8E95FB610E9F</string>
+			<key>SerialNumber</key>
+			<string></string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>

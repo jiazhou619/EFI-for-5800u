@@ -70,9 +70,13 @@ cd EFI/restore
 
 脚本全部为**可移植版**（自动定位自身目录），换机器、换路径都能用。详见 `AUDIO-FIX-USAGE.md`。
 
-## 隐私提示
+## 隐私 / 机器标识
 
-`EFI/oc/config.plist` 与 `EFI/restore/config.plist` 含本机标识 `MLB`、`ROM`。分享给他人前请改为自己机器的值。
+仓库内所有 `config.plist`（`EFI/oc/config.plist`、`EFI/oc/oldConfig.plist`、`EFI/restore/config.plist`）的 `SerialNumber`、`MLB`、`ROM` 均已**清空**，不含原机标识，可安全分享。
+
+- 这些值在你**本机 EFI 分区**上仍保留原值，本机使用（含 iMessage/FaceTime）不受影响。
+- `EFI/restore/RESTORE-GOLDEN.sh` 恢复配置时会**自动保留你本机现有的 MLB/ROM/SerialNumber**，所以从本仓库恢复不会导致设备认证失效。
+- 若你在另一台机器上使用本 EFI，请在 OpenCore Configurator / ProperTree 中填入那台机器自己的标识（或从你自己的旧 config 迁移）。
 
 ## 相关
 
