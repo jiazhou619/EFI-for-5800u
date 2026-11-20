@@ -78,6 +78,12 @@ cd EFI/restore
 - `EFI/restore/RESTORE-GOLDEN.sh` 恢复配置时会**自动保留你本机现有的 MLB/ROM/SerialNumber**，所以从本仓库恢复不会导致设备认证失效。
 - 若你在另一台机器上使用本 EFI，请在 OpenCore Configurator / ProperTree 中填入那台机器自己的标识（或从你自己的旧 config 迁移）。
 
+## 第三方组件与许可证
+
+`EFI/oc/Kexts/` 中的 kext 均为各上游作者的原始发布版本，本仓库原样收录、未修改。各组件的归属、上游链接与许可证信息见 [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md)。
+
+其中 **NootedRed** 使用作者自定义的 `ChefKiss Open Knowledge License v1`（非标准开源协议），该许可证第 3 条对 AI 使用有严格限制，详见上述声明文件。若你打算修改或再分发任何组件，请先阅读其上游许可证。
+
 ## 相关
 
 - 源码与改动说明：`jiazhou619/CirrusAudioFixup-CS35L51`（`cs35l51` 分支，`CS35L51-383B-PATCH-NOTES.md`）
