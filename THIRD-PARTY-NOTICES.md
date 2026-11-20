@@ -26,14 +26,15 @@ This document is provided in both Chinese and English. Both versions describe th
 | NVMeFix | acidanthera/NVMeFix |
 | BrightnessKeys | acidanthera/BrightnessKeys |
 | ECEnabler | 1Revenger1/ECEnabler |
-| **NootedRed** | **ChefKissInc/NootedRed** |
+| **NootedRed** | **weachy/NootedRed**（ChefKissInc/NootedRed 的社区分支 / community fork） |
 
 ### NootedRed
 
-本仓库收录 `EFI/oc/Kexts/NootedRed.kext`，为上游 GitHub Releases 发布的正式版二进制的**逐字完整副本**（未修改内容或行为），作为本 EFI 这一集合作品中的一个**独立、可分离、未改变**的组件。
+本仓库收录 `EFI/oc/Kexts/NootedRed.kext`，为其发布方 GitHub Releases 提供的正式版二进制的**逐字完整副本**（未修改内容或行为），作为本 EFI 这一集合作品中的一个**独立、可分离、未改变**的组件。
 
-- **上游项目**：https://github.com/ChefKissInc/NootedRed
-- **版权所有**：Copyright (C) 2022-2026 ChefKiss
+- **实际来源分支**：https://github.com/weachy/NootedRed （社区分支，带 Chromium/OpenGL 修复与跨 macOS 动态补丁）
+- **上游原始项目**：https://github.com/ChefKissInc/NootedRed
+- **版权所有**：Copyright (C) 2022-2026 ChefKiss（该分支保留了上游的版权与许可声明）
 - **适用许可证**：ChefKiss Open Knowledge License version 1（或其后由 ChefKiss 发布的更新版本）
 - **许可证全文（官方）**：https://git.chefkiss.dev/ChefKiss/OpenKnowledge/raw/branch/master/LICENSE-v1.md
 
@@ -64,14 +65,15 @@ The table below lists the main components enabled in this EFI and their upstream
 | NVMeFix | acidanthera/NVMeFix |
 | BrightnessKeys | acidanthera/BrightnessKeys |
 | ECEnabler | 1Revenger1/ECEnabler |
-| **NootedRed** | **ChefKissInc/NootedRed** |
+| **NootedRed** | **weachy/NootedRed**（ChefKissInc/NootedRed 的社区分支 / community fork） |
 
 ### NootedRed
 
-This repository includes `EFI/oc/Kexts/NootedRed.kext`, a **verbatim, complete copy** of the official binary released via the upstream GitHub Releases (no modification to its content or behaviour). Within this EFI as a collective work, it remains a **separate, separable, and unmodified** component.
+This repository includes `EFI/oc/Kexts/NootedRed.kext`, a **verbatim, complete copy** of the official binary released via GitHub Releases by its distributor (no modification to its content or behaviour). Within this EFI as a collective work, it remains a **separate, separable, and unmodified** component.
 
-- **Upstream project**: https://github.com/ChefKissInc/NootedRed
-- **Copyright**: Copyright (C) 2022-2026 ChefKiss
+- **Actual source branch**: https://github.com/weachy/NootedRed (a community fork with Chromium/OpenGL fixes and dynamic cross-macOS patches)
+- **Original upstream project**: https://github.com/ChefKissInc/NootedRed
+- **Copyright**: Copyright (C) 2022-2026 ChefKiss (the fork retains the upstream copyright and license notice)
 - **Applicable license**: ChefKiss Open Knowledge License version 1 (or any later version published by ChefKiss)
 - **Full license text (official)**: https://git.chefkiss.dev/ChefKiss/OpenKnowledge/raw/branch/master/LICENSE-v1.md
 
