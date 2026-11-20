@@ -10,7 +10,7 @@
 				<key>Comment</key>
 				<string>SSDT-ALS0.aml</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>Path</key>
 				<string>SSDT-ALS0.aml</string>
 			</dict>
@@ -355,7 +355,7 @@
 				<key>BundlePath</key>
 				<string>NootedRed.kext</string>
 				<key>Comment</key>
-				<string>V0.9.0</string>
+				<string>V1.2.5</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -607,7 +607,7 @@
 				<key>BundlePath</key>
 				<string>VoodooI2C.kext/Contents/PlugIns/VoodooInput.kext</string>
 				<key>Comment</key>
-				<string>V1.1.6</string>
+				<string>V1.1.7</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -717,7 +717,7 @@
 				<key>Comment</key>
 				<string>V3.1.2</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/VoodooHDA</string>
 				<key>MaxKernel</key>
@@ -877,7 +877,7 @@
 				<key>BundlePath</key>
 				<string>CirrusAudioFixup.kext</string>
 				<key>Comment</key>
-				<string>V2.3.0-inert</string>
+				<string>V1.2.0</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -2114,7 +2114,7 @@
 				AAAAAAAAAAAAAAAAAAA=
 				</data>
 				<key>boot-args</key>
-				<string>-lilubetaall vi2c-force-polling -amfipassbeta  revpatch=sbvmm revblock=media -noredpdelay -no_compat_check alcid=11 alcverbs=1 -cirrusarm -cirrusresetpin=70 -cirrusi2c -cirruspoll -cirrusnodsp -cirrusdefer -cirrusdelay=30000</string>
+				<string>-lilubetaall -vi2c-force-polling -amfipassbeta revpatch=sbvmm revblock=media -noredpdelay -no_compat_check alcid=21 alcverbs=1 -cirrusdbg</string>
 				<key>csr-active-config</key>
 				<data>
 				AwgAAA==
@@ -2196,13 +2196,14 @@
 			<key>AdviseFeatures</key>
 			<false/>
 			<key>MLB</key>
-			<string></string>
+			<string>REPLACE_WITH_YOUR_MLB</string>
 			<key>MaxBIOSVersion</key>
 			<false/>
 			<key>ProcessorType</key>
 			<integer>3841</integer>
 			<key>ROM</key>
 			<data>
+			AAAAAAAA
 			</data>
 			<key>SpoofVendor</key>
 			<true/>
@@ -2211,11 +2212,9 @@
 			<key>SystemProductName</key>
 			<string>MacBookPro16,3</string>
 			<key>SystemSerialNumber</key>
-			<string>C02CKVZNP3XY</string>
+			<string>REPLACE_WITH_YOUR_SERIAL</string>
 			<key>SystemUUID</key>
-			<string>1B4F6F5A-7463-453F-9ADA-8E95FB610E9F</string>
-			<key>SerialNumber</key>
-			<string></string>
+			<string>00000000-0000-0000-0000-000000000000</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>

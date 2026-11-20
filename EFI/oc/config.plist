@@ -10,7 +10,7 @@
 				<key>Comment</key>
 				<string>SSDT-ALS0.aml</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>Path</key>
 				<string>SSDT-ALS0.aml</string>
 			</dict>
@@ -607,7 +607,7 @@
 				<key>BundlePath</key>
 				<string>VoodooI2C.kext/Contents/PlugIns/VoodooInput.kext</string>
 				<key>Comment</key>
-				<string>V1.1.6</string>
+				<string>V1.1.7</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -663,7 +663,7 @@
 				<key>Comment</key>
 				<string>V2.4.0 | AirportItlwm Tahoe</string>
 				<key>Enabled</key>
-				<false/>
+				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/AirportItlwm</string>
 				<key>MaxKernel</key>
@@ -841,7 +841,7 @@
 				<key>BundlePath</key>
 				<string>AppleALC.kext</string>
 				<key>Comment</key>
-				<string>V1.9.9</string>
+				<string>V1.9.8</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -855,13 +855,31 @@
 			</dict>
 			<dict>
 				<key>Arch</key>
+				<string>x86_64</string>
+				<key>BundlePath</key>
+				<string>SimpleHDA.kext</string>
+				<key>Comment</key>
+				<string>SimpleHDA 1.0.1</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/SimpleHDA</string>
+				<key>MaxKernel</key>
+				<string>25.99.99</string>
+				<key>MinKernel</key>
+				<string>25.0.0</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>Arch</key>
 				<string>Any</string>
 				<key>BundlePath</key>
 				<string>itlwm.kext</string>
 				<key>Comment</key>
 				<string>V2.3.0</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/itlwm</string>
 				<key>MaxKernel</key>
@@ -877,7 +895,7 @@
 				<key>BundlePath</key>
 				<string>CirrusAudioFixup.kext</string>
 				<key>Comment</key>
-				<string>V1.0.0</string>
+				<string>V1.2.0</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -898,7 +916,7 @@
 				<key>Comment</key>
 				<string></string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>Identifier</key>
 				<string>com.apple.iokit.IOSkywalkFamily</string>
 				<key>MaxKernel</key>
@@ -1994,7 +2012,7 @@
 			<key>DisplayDelay</key>
 			<integer>0</integer>
 			<key>DisplayLevel</key>
-			<integer>0</integer>
+			<integer>2147483714</integer>
 			<key>LogModules</key>
 			<string>*</string>
 			<key>SysReport</key>
@@ -2114,7 +2132,7 @@
 				AAAAAAAAAAAAAAAAAAA=
 				</data>
 				<key>boot-args</key>
-				<string>-lilubetaall -vi2c-force-polling -amfipassbeta revpatch=sbvmm revblock=media -noredpdelay -no_compat_check alcid=21 alcverbs=1 -cirrusdbg</string>
+				<string>-vi2c-force-polling -amfipassbeta revpatch=sbvmm revblock=media -noredpdelay -no_compat_check alcid=21 alcverbs=1 -cirrusdbg</string>
 				<key>csr-active-config</key>
 				<data>
 				AwgAAA==
@@ -2196,13 +2214,14 @@
 			<key>AdviseFeatures</key>
 			<false/>
 			<key>MLB</key>
-			<string></string>
+			<string>REPLACE_WITH_YOUR_MLB</string>
 			<key>MaxBIOSVersion</key>
 			<false/>
 			<key>ProcessorType</key>
 			<integer>3841</integer>
 			<key>ROM</key>
 			<data>
+			AAAAAAAA
 			</data>
 			<key>SpoofVendor</key>
 			<true/>
@@ -2211,11 +2230,9 @@
 			<key>SystemProductName</key>
 			<string>MacBookPro16,3</string>
 			<key>SystemSerialNumber</key>
-			<string>C02CKVZNP3XY</string>
+			<string>REPLACE_WITH_YOUR_SERIAL</string>
 			<key>SystemUUID</key>
-			<string>1B4F6F5A-7463-453F-9ADA-8E95FB610E9F</string>
-			<key>SerialNumber</key>
-			<string></string>
+			<string>00000000-0000-0000-0000-000000000000</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
