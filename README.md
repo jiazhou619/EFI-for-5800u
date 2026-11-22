@@ -2,6 +2,8 @@
 
 本机（**Lenovo Yoga Slim 7 Carbon 14ACN6 / 82L0**，AMD Ryzen 7 5800U）的 OpenCore EFI 备份，含 2026-11-16 完成的 CS35L51 音频修复。
 
+> **最新更新（2026-11-22）**：已同步实机验证通过的 EFI 状态（CirrusAudioFixup → `E15E5975`、VoodooI2CHID → `84ED0F48`，补齐 I2C satellite）。特别注意 **`VoodooI2C.kext` 必须保持定制 fork `379C7711`，换成官方版会导致低音消失**。详见 [`CHANGELOG-20261122.md`](CHANGELOG-20261122.md)。
+
 ## 机器配置
 
 | 项目 | 值 |
