@@ -96,3 +96,27 @@ Lenovo Yoga Slim 7 Carbon 14ACN6（R7 5800U）长期存在一个问题：
 **仅影响 ELAN 设备**，其他 I2C HID 设备行为不变。UUID 由 84ED0F48 变为 BBB327B2（编译生成），接口/依赖未变（依赖 VoodooI2C 2.0，当前 2.9.1 满足）。
 
 **状态**：实验性，未实机验证。待挂载 EFI 后替换 `VoodooI2CHID.kext`，暖启动测试。若失败，回退：把仓库上一版的 VoodooI2CHID.kext 拷回即可。
+
+---
+
+## 方案B 强化（16:10）：加入 PWR_SLEEP→PWR_ON 与验证/计数器
+
+实机验证方案 B 后：`WarmResetQuirkEnabled=Yes`、`WarmResetResult=SUCCESS`、`Interrupt Mode=GPIO`，但触摸板仍无反应。说明 HID RESET 命令本身被芯片 ACK，但芯片内部触摸固件没有真正重启，`SUCCESS` 只代表最后一次 PWR_ON 写入成功，不代表功能恢复。
+
+本次改动：
+
+- `resetHIDDeviceRecovery()` 改为 **PWR_SLEEP(200ms) → PWR_ON(100ms) → RESET → 150ms → PWR_ON(100ms)**，最多 3 次。用软件方式模拟冷启动时的断电，尽量把 ELAN 内部状态机彻底复位。
+- 每轮结束后**重新读取 HID 描述符**做验证，只有读到非零 VID/PID 才标记 `SUCCESS`；新增 `WarmResetVID` / `WarmResetPID` / `WarmResetResult=IN_PROGRESS|FAILED` 属性。
+- 新增诊断计数器（IOReg 可见）：`WarmIrqCount`（GPIO 中断次数）、`WarmInputReportCount`（有效输入报告数）、`WarmZeroLengthCount`（零长度报告数）、`WarmLastReportSize`。用它们区分“芯片完全不发中断”和“中断有但报告为空”两种情况。
+- 新编译产物 UUID：`3676B6D3-78C2-3117-8C77-EE47597B0157`（上一版 `BBB327B2-...`）。
+
+**部署状态**：新 kext 已编译到 `/Users/zhou/WorkBuddy/2026-11-21-12-54-31/output/voodooi2c-warmreset2-dd/Build/Products/Release/VoodooI2CHID.kext`，等待 EFI 分区挂载后替换。当前 EFI 分区 `disk0s1`（NO NAME）未能自动挂载，需要手动挂载后继续。
+
+**重启后验证**：
+
+```bash
+kextstat | grep VoodooI2CHID   # 应显示 3676B6D3
+ioreg -l -w0 | grep -iE 'WarmReset|WarmIrqCount|WarmInputReportCount|WarmZeroLengthCount|WarmLastReportSize'
+```
+
+若 `WarmIrqCount` 为 0 → GPIO 中断完全没来；若不为 0 但 `WarmInputReportCount` 为 0 → 中断来了但读到零长度/空报告。两种结果对应不同的下一轮修复方向。
