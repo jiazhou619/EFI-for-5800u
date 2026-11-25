@@ -76,3 +76,23 @@ Lenovo Yoga Slim 7 Carbon 14ACN6（R7 5800U）长期存在一个问题：
 （同时把实机已在用的 `-NRedNoVDA` 补入仓库 config，保持仓库与实机一致，防止同步时丢失。）
 
 **验证要点**：重启后执行 `ioreg -l -w0 | grep -i 'Interrupt Mode'`，触摸板 TPNL 应显示 `GPIO` 而非 `Polling`；再测暖启动触摸板。
+
+---
+
+## 方案B（16:00）：VoodooI2CHID 加入暖启动主动复位（实验性）
+
+移除 force-polling 后触摸板仍不行，且软件链路已全绿（I2CC 恢复 STOP、GPIO 中断注册、ELAN3915 完整枚举、Magic Trackpad 2 模拟层建立），确认根因是 **ELAN 芯片内部状态残留**：真断电(POR)能恢复，但普通重启时芯片挂起。
+
+诊断发现 VoodooI2CHID 源码里 `handleStart()` 其实会发 RESET（opcode 0x01），但：
+- 它等待芯片回 RESET-complete 中断，暖启动挂起时收不到 → 12 秒超时 → **返回值被忽略**，带坏状态继续启动
+- 对比 Linux i2c-hid 标准流程：PWR_ON(60ms) → RESET → 固定延时（不等中断）→ 再 PWR_ON(60ms)，且失败重试 3 次。VoodooI2C 缺了「RESET 后再 PWR_ON」和「重试」
+
+**改动**（VoodooI2CHIDDevice.cpp/hpp）：
+- 新增 `resetHIDDeviceRecovery()`：完整移植 Linux 序列，PWR_ON → RESET（不等中断）→ 150ms → 再 PWR_ON，最多 3 次
+- 新增 quirk `I2C_HID_QUIRK_WARM_RESET_RECOVERY`，按 ACPI 设备名 `ELAN*` 自动启用（HID 描述符报的 ID 是 0x06CB:0xCEA0，不可靠，故用名字匹配）
+- `handleStart()` 与 `setPowerState()` 唤醒路径均改用恢复序列
+- 加 IOReg 诊断属性：`WarmResetQuirkEnabled` / `WarmResetAttempted` / `WarmResetLastAttempt` / `WarmResetResult`（SUCCESS/FAILED）
+
+**仅影响 ELAN 设备**，其他 I2C HID 设备行为不变。UUID 由 84ED0F48 变为 BBB327B2（编译生成），接口/依赖未变（依赖 VoodooI2C 2.0，当前 2.9.1 满足）。
+
+**状态**：实验性，未实机验证。待挂载 EFI 后替换 `VoodooI2CHID.kext`，暖启动测试。若失败，回退：把仓库上一版的 VoodooI2CHID.kext 拷回即可。
