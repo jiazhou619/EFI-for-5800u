@@ -120,3 +120,21 @@ ioreg -l -w0 | grep -iE 'WarmReset|WarmIrqCount|WarmInputReportCount|WarmZeroLen
 ```
 
 若 `WarmIrqCount` 为 0 → GPIO 中断完全没来；若不为 0 但 `WarmInputReportCount` 为 0 → 中断来了但读到零长度/空报告。两种结果对应不同的下一轮修复方向。
+
+---
+
+## 最终根治（17:35-18:05）：控制器层 ACPI RSET，已验证
+
+前面所有 HID 层方案（方案 A/B/TPDD 定向）都失败——芯片挂死时 I2C HID 的 RESET/PWR 协议命令靠芯片自己响应，等于让昏迷的人自救；而且最初匹配条件命中了 ELAN 触摸屏，真正的触摸板是 Synaptics（TPDD / 06CB:CEA0）。
+
+**根因**：这台机器（AMD Cezanne / AMDI0010）的 I2C 控制器与 AMD PSP 安全处理器共享总线。PSP 有独立电源域，普通重启不复位，残留的总线仲裁状态挂死触摸板；只有物理断电（长按电源键 10 秒）才清零。Linux 直到 2026 年才补上 `ARBITRATION_SEMAPHORE` 处理这类问题。
+
+**修复**：在核心 `VoodooI2C.kext` 的 `VoodooI2CACPIController::start()` 中，对 `_UID==1`（I2CB，触摸板控制器）在 `_PS0` 后调用固件已有的 ACPI `RSET` 方法（SRAD → 写 SMU 寄存器 0xFED81E4C，ADIS/ADSR 复位脉冲）。严格排除 I2CC（触摸屏）与 I2CD（CS35L41 音频功放），不影响屏幕和低音。
+
+**诊断属性**：`Controller UID` / `Is Touchpad Bus` / `Controller RSET Status`（evaluateObject 返回码）/ `Controller RSET Done`。TPDD 触摸板保留 HID 层计数器 `WarmIrqCount` / `WarmInputReportCount` / `WarmZeroLengthCount` / `WarmLastReportSize`。
+
+**版本**：核心 kext UUID `D49CD71D` → `D7E0DA15`；HID kext 恢复为 `8CD88756`（移除 ELAN 触摸屏的 quirk，避免误伤）。
+
+**实机验证**：连续 7-8 次普通重启，触摸板每次正常。每次 `Controller RSET Done=Yes / Status=0`，TPDD 计数器随触摸增长（IRQ ≈ Report，ReportSize=32 有效）。触摸屏与低音未受影响。
+
+**HID 改动**：三个 HID 提交因上游 remote 无写权限，以 patch 形式存于 `VoodooI2C` 仓库 `patches/VoodooI2CHID/`（基于上游 476c90a）。
