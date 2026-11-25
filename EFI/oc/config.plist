@@ -1908,7 +1908,7 @@
                     <key>bluetoothInternalControllerInfo</key>
                     <data>AAAAAAAAAAAAAAAAAAA=</data>
                     <key>boot-args</key>
-                    <string>-lilubetaall revpatch=sbvmm,cpuname revblock=media -noredpdelay -no_compat_check alcid=21 alcverbs=1 itlwm_he=1 -vi2c-force-polling</string>
+                    <string>-lilubetaall revpatch=sbvmm,cpuname revblock=media -noredpdelay -no_compat_check alcid=21 alcverbs=1 itlwm_he=1 -NRedNoVDA</string>
                     <key>csr-active-config</key>
                     <data>AwgAAA==</data>
                     <key>prev-lang:kbd</key>

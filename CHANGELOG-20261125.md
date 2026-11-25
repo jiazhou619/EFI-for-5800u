@@ -53,3 +53,26 @@ Lenovo Yoga Slim 7 Carbon 14ACN6（R7 5800U）长期存在一个问题：
 ### 回退
 
 如出现异常，将备份的旧 `VoodooI2C.kext` 拷回 `EFI/OC/Kexts/` 即可恢复原状。
+
+---
+
+## 补充诊断（15:30）：移除 `-vi2c-force-polling`
+
+首次重启验证后触摸板仍失效。深入 IOReg 诊断发现：
+
+- 新 kext 的 `recoverBus` **确实执行且成功**：I2CC（触摸板总线）`Recovery Result = STOP`（9 SCL + STOP 已发出，总线成功释放）。
+- ELAN3915 设备**完整枚举**：`VoodooI2CHIDDevice`、`VoodooInput`、`Magic Trackpad 2` 模拟器、`AppleMultitouchTrackpadHIDEventDriver` 全部 attach。
+- **根因浮现**：TPNL 的 `Interrupt Mode = "Polling"`。`boot-args` 里的 **`-vi2c-force-polling`** 强制触摸板跳过 GPIO 中断、改用轮询。
+
+**结论**：总线恢复已由新 kext 的 `recoverBus` 解决，不再需要 force-polling 绕过。而轮询模式下暖启动后 ELAN 控制器状态异常时读不到触摸数据。该参数是 11-22 作为临时绕过加入的，但从未真正修好暖启动问题。
+
+**改动**：从 boot-args 移除 `-vi2c-force-polling`，恢复触摸板走 GPIO 中断（DSDT 中 TPNL `_CRS` 定义了 GpioInt pin 0x74，VoodooGPIOAMD 已加载）。
+
+**boot-args 变更**：
+```
+移除前: -lilubetaall revpatch=sbvmm,cpuname revblock=media -noredpdelay -no_compat_check alcid=21 alcverbs=1 itlwm_he=1 -vi2c-force-polling -NRedNoVDA
+移除后: -lilubetaall revpatch=sbvmm,cpuname revblock=media -noredpdelay -no_compat_check alcid=21 alcverbs=1 itlwm_he=1 -NRedNoVDA
+```
+（同时把实机已在用的 `-NRedNoVDA` 补入仓库 config，保持仓库与实机一致，防止同步时丢失。）
+
+**验证要点**：重启后执行 `ioreg -l -w0 | grep -i 'Interrupt Mode'`，触摸板 TPNL 应显示 `GPIO` 而非 `Polling`；再测暖启动触摸板。
